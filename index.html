@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jelajah Madura - Jelajahi Keindahan Pulau Garam</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        /* Navbar Styling */
+        .navbar {
+            background: rgba(26, 26, 46, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .navbar-logo {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: #ffffff !important;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #667eea !important;
+            transform: translateY(-2px);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 80%;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        
+        .hero-slide.active {
+            opacity: 1;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.35) 100%);
+            backdrop-filter: blur(0.5px);
+            z-index: 1;
+        }
+        
+        .hero-overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 20%, rgba(79, 172, 254, 0.05) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+        }
+        
+        /* Slider Navigation */
+        .slider-nav {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+        
+        .slider-dot.active {
+            background: white;
+            width: 40px;
+            border-radius: 6px;
+        }
+        
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 3;
+            font-size: 1.5rem;
+        }
+        
+        .slider-arrow:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .slider-arrow.prev {
+            left: 30px;
+        }
+        
+        .slider-arrow.next {
+            right: 30px;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+        
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3), 0 0 40px rgba(255,255,255,0.1);
+            letter-spacing: 2px;
+        }
+        
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease 0.2s;
+            animation-fill-mode: backwards;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        .hero-btn {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease 0.4s;
+            animation-fill-mode: backwards;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        .hero-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.4), 0 0 30px rgba(255,255,255,0.3);
+            background: white;
+        }
+        
+        /* Floating Animation */
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Section Styling */
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .section-title p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+        
+        /* Destination Cards */
+        .destination-card {
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        
+        .destination-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(240, 147, 251, 0.4);
+        }
+        
+        .destination-card img {
+            height: 250px;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+        
+        .destination-card:hover img {
+            transform: scale(1.1);
+        }
+        
+        .destination-card .card-body {
+            padding: 25px;
+        }
+        
+        .destination-card h5 {
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .destination-card p {
+            color: rgba(255,255,255,0.7);
+            line-height: 1.6;
+        }
+        
+        .badge-custom {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+        }
+        
+        /* Culinary Section */
+        .culinary-section {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            padding: 80px 0;
+            color: white;
+        }
+        
+        .culinary-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(240, 147, 251, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+        
+        .culinary-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(240, 147, 251, 0.5);
+            box-shadow: 0 20px 50px rgba(240, 147, 251, 0.3);
+        }
+        
+        .culinary-card i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .culinary-card h4 {
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        /* Culture Section */
+        .culture-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #141E30 0%, #243B55 100%);
+        }
+        
+        .culture-box {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+        
+        .culture-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(240, 147, 251, 0.3);
+            border-color: rgba(240, 147, 251, 0.3);
+        }
+        
+        .culture-box h4, .culture-box h5 {
+            color: white;
+        }
+        
+        .culture-box p {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .culture-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .culture-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            padding: 80px 0;
+            color: white;
+        }
+        
+        .contact-form {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(240, 147, 251, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 20px;
+            border: 2px solid rgba(240, 147, 251, 0.3);
+            background: rgba(255,255,255,0.05);
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .form-control:focus {
+            background: rgba(255,255,255,0.1);
+            border-color: #f093fb;
+            color: white;
+            box-shadow: 0 0 20px rgba(240, 147, 251, 0.3);
+        }
+        
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(240, 147, 251, 0.3);
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(240, 147, 251, 0.5);
+        }
+        
+        /* Footer */
+        .footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer h5 {
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            transform: translateY(-5px);
+        }
+        
+        /* Logo Partner Section */
+        .logo-partner {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 30px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo-partner .text-muted {
+            color: rgba(255,255,255,0.6) !important;
+        }
+        
+        .partner-logo {
+            height: 80px;
+            object-fit: contain;
+            margin: 0 20px;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        
+        .partner-logo:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Scroll Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="logo Jelajah Madura.png" alt="Logo Jelajah Madura" class="navbar-logo">
+                <span><i class="fas fa-island-tropical"></i> Jelajah Madura</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#destinasi">Destinasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#kuliner">Kuliner</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#budaya">Budaya</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="hero-slider">
+            <div class="hero-slide active" style="background-image: url('madura.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('Jembatan Suramadu.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('Bukit Jaddih.png');"></div>
+            <div class="hero-slide" style="background-image: url('Pulau Gili Labak.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('pantai lombang.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('keraton sumenep.jpg');"></div>
+        </div>
+        <div class="hero-overlay"></div>
+        
+        <!-- Slider Arrows -->
+        <div class="slider-arrow prev" onclick="changeSlide(-1)">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="slider-arrow next" onclick="changeSlide(1)">
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        
+        <div class="hero-content">
+            <h1 class="floating">Jelajahi Keindahan Madura</h1>
+            <p>Temukan Pesona Pulau Garam dengan Segala Keunikannya</p>
+            <button class="hero-btn" onclick="document.getElementById('destinasi').scrollIntoView({behavior: 'smooth'})">
+                Mulai Petualangan <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+        
+        <!-- Slider Dots -->
+        <div class="slider-nav">
+            <div class="slider-dot active" onclick="goToSlide(0)"></div>
+            <div class="slider-dot" onclick="goToSlide(1)"></div>
+            <div class="slider-dot" onclick="goToSlide(2)"></div>
+            <div class="slider-dot" onclick="goToSlide(3)"></div>
+            <div class="slider-dot" onclick="goToSlide(4)"></div>
+            <div class="slider-dot" onclick="goToSlide(5)"></div>
+        </div>
+    </section>
+
+    <!-- Logo Partner Section -->
+    <section class="logo-partner">
+        <div class="container">
+            <div class="row align-items-center justify-content-center text-center">
+                <div class="col-12 mb-3">
+                    <p class="text-muted mb-3"><small>Didukung oleh:</small></p>
+                </div>
+                <div class="col-6 col-md-3">
+                    <img src="Logo UTM.png" alt="Logo UTM" class="partner-logo">
+                </div>
+                <div class="col-6 col-md-3">
+                    <img src="LOGO TRIPLE-C.png" alt="Logo Triple-C" class="partner-logo">
+                </div>
+                <div class="col-6 col-md-3">
+                    <img src="LOGO TCC.png" alt="Logo TCC" class="partner-logo">
+                </div>
+                <div class="col-6 col-md-3">
+                    <img src="JACK TRIPLE-C.png" alt="Logo Jack 2025" class="partner-logo">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinasi Section -->
+    <section id="destinasi" class="py-5" style="padding-top: 80px !important; background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2 style="color: white;">Destinasi Populer</h2>
+                <p style="color: rgba(255,255,255,0.8);">Kunjungi tempat-tempat menakjubkan di Pulau Madura</p>
+            </div>
+            <div class="row">
+                <div class="col-md-4 fade-in">
+                    <div class="card destination-card">
+                        <img src="pantai lombang.jpg" alt="Pantai Lombang" style="width: 100%; height: 250px; object-fit: cover;">
+                        <div class="card-body">
+                            <span class="badge-custom">Pantai</span>
+                            <h5 class="mt-3">Pantai Lombang</h5>
+                            <p>Pantai eksotis dengan pasir putih dan air laut yang jernih. Tempat sempurna untuk bersantai dan menikmati sunset yang memukau.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 fade-in">
+                    <div class="card destination-card">
+                        <img src="Jembatan Suramadu.jpg" alt="Jembatan Suramadu" style="width: 100%; height: 250px; object-fit: cover;">
+                        <div class="card-body">
+                            <span class="badge-custom">Landmark</span>
+                            <h5 class="mt-3">Jembatan Suramadu</h5>
+                            <p>Jembatan terpanjang di Indonesia yang menghubungkan Surabaya dan Madura. Ikon kebanggaan dengan pemandangan spektakuler.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 fade-in">
+                    <div class="card destination-card">
+                        <img src="keraton sumenep.jpg" alt="Keraton Sumenep" style="width: 100%; height: 250px; object-fit: cover;">
+                        <div class="card-body">
+                            <span class="badge-custom">Sejarah</span>
+                            <h5 class="mt-3">Keraton Sumenep</h5>
+                            <p>Istana bersejarah dengan arsitektur klasik yang memukau. Saksi bisu kejayaan kerajaan Madura di masa lampau.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 fade-in">
+                    <div class="card destination-card">
+                        <img src="Bukit Jaddih.png" alt="Bukit Jaddih" style="width: 100%; height: 250px; object-fit: cover;">
+                        <div class="card-body">
+                            <span class="badge-custom">Alam</span>
+                            <h5 class="mt-3">Bukit Jaddih</h5>
+                            <p>Bekas tambang kapur yang kini menjadi destinasi wisata memukau dengan tebing-tebing eksotis dan danau biru yang menawan.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 fade-in">
+                    <div class="card destination-card">
+                        <img src="air terjun toroan.jpeg" alt="Air Terjun Toroan" style="width: 100%; height: 250px; object-fit: cover;">
+                        <div class="card-body">
+                            <span class="badge-custom">Air Terjun</span>
+                            <h5 class="mt-3">Air Terjun Toroan</h5>
+                            <p>Satu-satunya air terjun di Indonesia yang langsung jatuh ke laut. Keajaiban alam yang wajib dikunjungi saat ke Madura.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 fade-in">
+                    <div class="card destination-card">
+                        <img src="Pulau Gili Labak.jpg" alt="Pulau Gili Labak" style="width: 100%; height: 250px; object-fit: cover;">
+                        <div class="card-body">
+                            <span class="badge-custom">Pulau</span>
+                            <h5 class="mt-3">Pulau Gili Labak</h5>
+                            <p>Surga tersembunyi dengan air laut yang kristal dan terumbu karang yang indah. Destinasi snorkeling terbaik di Madura.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kuliner Section -->
+    <section id="kuliner" class="culinary-section">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2 style="color: white;">Kuliner Khas Madura</h2>
+                <p style="color: rgba(255,255,255,0.9);">Nikmati kelezatan cita rasa autentik Madura</p>
+            </div>
+            <div class="row">
+                <div class="col-md-3 fade-in">
+                    <div class="culinary-card">
+                        <img src="sate madura.png" alt="Sate Madura" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; margin-bottom: 20px; border: 3px solid rgba(255,255,255,0.3);">
+                        <h4>Sate Madura</h4>
+                        <p>Sate legendaris dengan bumbu kacang yang khas dan daging yang empuk</p>
+                    </div>
+                </div>
+                <div class="col-md-3 fade-in">
+                    <div class="culinary-card">
+                        <img src="soto madura.png" alt="Soto Madura" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; margin-bottom: 20px; border: 3px solid rgba(255,255,255,0.3);">
+                        <h4>Soto Madura</h4>
+                        <p>Soto dengan kuah bening yang segar dan daging sapi yang lembut</p>
+                    </div>
+                </div>
+                <div class="col-md-3 fade-in">
+                    <div class="culinary-card">
+                        <img src="nasi serpang.jpg" alt="Nasi Serpang" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; margin-bottom: 20px; border: 3px solid rgba(255,255,255,0.3);">
+                        <h4>Nasi Serpang</h4>
+                        <p>Nasi khas dengan lauk ikan asin dan sambal yang menggugah selera</p>
+                    </div>
+                </div>
+                <div class="col-md-3 fade-in">
+                    <div class="culinary-card">
+                        <img src="rujak cingur.png" alt="Rujak Cingur" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; margin-bottom: 20px; border: 3px solid rgba(255,255,255,0.3);">
+                        <h4>Rujak Cingur</h4>
+                        <p>Rujak unik dengan campuran sayuran, buah, dan cingur sapi</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Budaya Section -->
+    <section id="budaya" class="culture-section">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Budaya & Tradisi</h2>
+                <p>Kenali kekayaan budaya yang menjadi identitas Madura</p>
+            </div>
+            <div class="row">
+                <div class="col-md-6 fade-in">
+                    <div class="culture-box">
+                        <img src="karapan sapi.png" alt="Karapan Sapi" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 20px;">
+                        <h4>Karapan Sapi</h4>
+                        <p>Tradisi pacuan sapi yang telah menjadi ikon budaya Madura. Pertunjukan spektakuler yang menampilkan ketangkasan joki dan kekuatan sapi dengan kecepatan mencapai 60 km/jam. Acara ini biasanya diadakan setelah panen sebagai bentuk syukur dan hiburan masyarakat.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 fade-in">
+                    <div class="culture-box">
+                        <img src="musik saronen.jpg" alt="Musik Saronen" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 20px;">
+                        <h4>Musik Saronen</h4>
+                        <p>Alat musik tradisional khas Madura yang terbuat dari kayu dan bambu. Saronen menghasilkan bunyi khas yang merdu dan biasa dimainkan dalam berbagai acara adat seperti pernikahan, khitanan, dan perayaan lainnya. Musik ini mencerminkan kegembiraan dan semangat masyarakat Madura.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 fade-in">
+                    <div class="culture-box">
+                        <img src="tari topeng dalang.jpg" alt="Tari Topeng Dalang" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 20px;">
+                        <h4>Tari Topeng Dalang</h4>
+                        <p>Tarian tradisional yang menggabungkan gerakan tari dengan cerita wayang. Penari menggunakan topeng kayu dengan ekspresi yang beragam dan membawakan kisah-kisah heroik dari berbagai legenda. Seni ini merupakan warisan budaya yang terus dilestarikan.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 fade-in">
+                    <div class="culture-box">
+                        <img src="batik madura.png" alt="Batik Madura" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 20px;">
+                        <h4>Batik Madura</h4>
+                        <p>Batik dengan motif khas yang penuh warna cerah dan berani. Motif-motif seperti flora, fauna, dan ornamen geometris mencerminkan jiwa bebas dan berani masyarakat Madura. Batik Madura terkenal dengan warna merah, kuning, dan hijau yang vibran serta proses pembuatannya yang masih tradisional.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Perkenalan Section -->
+    <section class="py-5" style="background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2 style="color: white;">Video Perkenalan Madura</h2>
+                <p style="color: rgba(255,255,255,0.8);">Saksikan keindahan Madura dalam satu video</p>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-6 fade-in">
+                    <div style="position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.15);">
+                        <a href="https://youtu.be/tYPxOmb2Geg?si=e3PoFvUswQFoRjBB" target="_blank" style="text-decoration: none; display: block;">
+                            <div style="background-image: url('youtube.png'); background-size: cover; background-position: center; height: 400px; display: flex; align-items: center; justify-content: center; color: white; transition: all 0.3s ease; position: relative;" onmouseover="this.querySelector('.youtube-overlay').style.background='rgba(0,0,0,0.3)'" onmouseout="this.querySelector('.youtube-overlay').style.background='rgba(0,0,0,0.2)'">
+                                <div class="youtube-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2); transition: all 0.3s ease;"></div>
+                                <div class="text-center" style="position: relative; z-index: 2; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+                                    <i class="fab fa-youtube fa-5x mb-3" style="cursor: pointer; transition: all 0.3s ease;"></i>
+                                    <h3>Tonton Video</h3>
+                                    <p>Klik untuk menonton di YouTube</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6 fade-in">
+                    <h3 class="mb-4" style="color: white;">🌅 Jelajahi Madura Lebih Dekat</h3>
+                    <p class="mb-3"><i class="fas fa-check-circle" style="color: #f093fb;"></i> <strong style="color: white;">🏝️ Keindahan Alam</strong><br>
+                    <span style="font-size: 0.95rem; color: rgba(255,255,255,0.7);">Dari Bukit Kapur Jaddih hingga Air Terjun Toroan, Madura menyuguhkan pemandangan alam menakjubkan—pantai berpasir putih, tebing kapur megah, dan lautan biru yang mempesona.</span></p>
+                    
+                    <p class="mb-3"><i class="fas fa-check-circle" style="color: #f093fb;"></i> <strong style="color: white;">🎨 Budaya dan Kearifan Lokal</strong><br>
+                    <span style="font-size: 0.95rem; color: rgba(255,255,255,0.7);">Selain panorama indah, Madura juga terkenal dengan tradisi karapan sapi dan kehidupan masyarakatnya yang sederhana namun penuh semangat.</span></p>
+                    
+                    <p class="mb-3"><i class="fas fa-check-circle" style="color: #f093fb;"></i> <strong style="color: white;">🍽️ Kuliner Khas</strong><br>
+                    <span style="font-size: 0.95rem; color: rgba(255,255,255,0.7);">Liburan belum lengkap tanpa mencicipi kelezatan bebek Sinjay, sate Madura, dan aneka hidangan khas yang menggugah selera.</span></p>
+                    
+                    <p class="mb-3"><i class="fas fa-check-circle" style="color: #f093fb;"></i> <strong style="color: white;">🏰 Jejak Sejarah dan Wisata Unik</strong><br>
+                    <span style="font-size: 0.95rem; color: rgba(255,255,255,0.7);">Temukan situs bersejarah, bukit-bukit bekas tambang, serta kampung wisata bernuansa alami seperti Toron Samalem dan Puncak Ratu.</span></p>
+                    
+                    <p class="mb-4"><i class="fas fa-check-circle" style="color: #f093fb;"></i> <strong style="color: white;">🤗 Keramahan Masyarakat</strong><br>
+                    <span style="font-size: 0.95rem; color: rgba(255,255,255,0.7);">Di setiap sudut Madura, pengunjung akan disambut dengan senyum hangat dan suasana yang tenang—membuat perjalanan terasa lebih berkesan.</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistik Wisata Section -->
+    <section class="py-5" style="background: linear-gradient(135deg, #141E30 0%, #243B55 100%);">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2 style="color: white;">Fakta Menarik Madura</h2>
+                <p style="color: rgba(255,255,255,0.8);">Data dan informasi seputar pariwisata Madura</p>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-3 fade-in">
+                    <div class="culture-box">
+                        <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fas fa-map-marked-alt" style="font-size: 2.5rem; color: white;"></i>
+                        </div>
+                        <h2 style="color: #f093fb; font-weight: 800; margin-bottom: 10px;">50+</h2>
+                        <h5 style="color: white;">Destinasi Wisata</h5>
+                        <p style="color: rgba(255,255,255,0.6);">Pantai, gunung, sejarah, dan budaya yang menawan</p>
+                    </div>
+                </div>
+                <div class="col-md-3 fade-in">
+                    <div class="culture-box">
+                        <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fas fa-utensils" style="font-size: 2.5rem; color: white;"></i>
+                        </div>
+                        <h2 style="color: #f5576c; font-weight: 800; margin-bottom: 10px;">100+</h2>
+                        <h5 style="color: white;">Kuliner Khas</h5>
+                        <p style="color: rgba(255,255,255,0.6);">Cita rasa autentik yang memanjakan lidah</p>
+                    </div>
+                </div>
+                <div class="col-md-3 fade-in">
+                    <div class="culture-box">
+                        <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fas fa-users" style="font-size: 2.5rem; color: white;"></i>
+                        </div>
+                        <h2 style="color: #00f2fe; font-weight: 800; margin-bottom: 10px;">2 Juta+</h2>
+                        <h5 style="color: white;">Wisatawan/Tahun</h5>
+                        <p style="color: rgba(255,255,255,0.6);">Pengunjung yang menikmati pesona Madura</p>
+                    </div>
+                </div>
+                <div class="col-md-3 fade-in">
+                    <div class="culture-box">
+                        <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fas fa-star" style="font-size: 2.5rem; color: white;"></i>
+                        </div>
+                        <h2 style="color: #fee140; font-weight: 800; margin-bottom: 10px;">15+</h2>
+                        <h5 style="color: white;">Festival Budaya</h5>
+                        <p style="color: rgba(255,255,255,0.6);">Event tahunan yang meriah dan spektakuler</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="kontak" class="contact-section">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2 style="color: white;">Hubungi Kami</h2>
+                <p style="color: rgba(255,255,255,0.9);">Ada pertanyaan? Kami siap membantu perjalanan Anda</p>
+            </div>
+            <div class="row">
+                <div class="col-md-6 fade-in">
+                    <div class="contact-form">
+                        <h4 class="mb-4">Kirim Pesan</h4>
+                        <form id="contactForm" action="https://formspree.io/f/xeoqkglv" method="POST">
+                            <input type="text" class="form-control" name="nama" placeholder="Nama Lengkap" required>
+                            <input type="email" class="form-control" name="_replyto" placeholder="Email" required>
+                            <input type="tel" class="form-control" name="telepon" placeholder="Nomor Telepon" required>
+                            <textarea class="form-control" rows="5" name="pesan" placeholder="Pesan Anda" required></textarea>
+                            <input type="hidden" name="_subject" value="Pesan Baru dari Website Jelajah Madura">
+                            <input type="hidden" name="_next" value="#kontak">
+                            <button type="submit" class="btn-submit">Kirim Pesan <i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-6 fade-in">
+                    <div style="background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 2px solid rgba(240, 147, 251, 0.3); border-radius: 20px; padding: 40px; height: 100%;">
+                        <h4 class="mb-4">Informasi Kontak</h4>
+                        <div class="mb-4">
+                            <h5><i class="fas fa-map-marker-alt"></i> Alamat</h5>
+                            <p>Jl. Raya Telang, Kamal, Bangkalan<br>Madura, Jawa Timur 69162</p>
+                        </div>
+                        <div class="mb-4">
+                            <h5><i class="fas fa-phone"></i> Telepon</h5>
+                            <p>+62 812-3456-7890</p>
+                        </div>
+                        <div class="mb-4">
+                            <h5><i class="fas fa-envelope"></i> Email</h5>
+                            <p>info@jelajahmadura.com</p>
+                        </div>
+                        <div>
+                            <h5 class="mb-3"><i class="fas fa-share-alt"></i> Media Sosial</h5>
+                            <div class="social-icons">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5><i class="fas fa-island-tropical"></i> Jelajah Madura</h5>
+                    <p class="mt-3">Platform informasi wisata terlengkap untuk menjelajahi keindahan Pulau Madura. Temukan destinasi, kuliner, dan budaya yang menakjubkan.</p>
+                    <div class="social-icons mt-3">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5>Jelajahi</h5>
+                    <ul class="footer-links">
+                        <li><a href="#destinasi">Destinasi</a></li>
+                        <li><a href="#kuliner">Kuliner</a></li>
+                        <li><a href="#budaya">Budaya</a></li>
+                        <li><a href="#kontak">Kontak</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Layanan</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Paket Wisata</a></li>
+                        <li><a href="#">Panduan Travel</a></li>
+                        <li><a href="#">Booking Hotel</a></li>
+                        <li><a href="#">Rental Kendaraan</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Newsletter</h5>
+                    <p>Dapatkan info terbaru tentang wisata Madura</p>
+                    <div class="input-group mt-3">
+                        <input type="email" class="form-control" placeholder="Email Anda" style="border-radius: 50px 0 0 50px; background: rgba(255,255,255,0.05); border: 1px solid rgba(240, 147, 251, 0.3); color: white;">
+                        <button class="btn" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; border-radius: 0 50px 50px 0; border: none;">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.1); margin: 30px 0;">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2025 Jelajah Madura. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0">Dibuat untuk Trunojoyo Creative Competition 2025</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+    <script>
+        // Hero Slider
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const dots = document.querySelectorAll('.slider-dot');
+        const totalSlides = slides.length;
+        let slideInterval;
+        
+        function showSlide(index) {
+            // Remove active class from all slides and dots
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            // Wrap around if index is out of bounds
+            if (index >= totalSlides) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = totalSlides - 1;
+            } else {
+                currentSlide = index;
+            }
+            
+            // Add active class to current slide and dot
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+        
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+            resetSlideInterval();
+        }
+        
+        function goToSlide(index) {
+            showSlide(index);
+            resetSlideInterval();
+        }
+        
+        function resetSlideInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(() => {
+                showSlide(currentSlide + 1);
+            }, 3000);
+        }
+        
+        // Auto slide every 3 seconds
+        slideInterval = setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 3000);
+        
+        // jQuery ready
+        $(document).ready(function() {
+            // Smooth scroll untuk semua link navigasi
+            $('.nav-link').on('click', function(e) {
+                if (this.hash !== '') {
+                    e.preventDefault();
+                    var hash = this.hash;
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top - 70
+                    }, 800);
+                }
+            });
+            
+            // Navbar background on scroll
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 50) {
+                    $('.navbar').css('background', 'rgba(26, 26, 46, 0.98)');
+                } else {
+                    $('.navbar').css('background', 'rgba(26, 26, 46, 0.95)');
+                }
+                
+                // Fade in animation on scroll
+                $('.fade-in').each(function() {
+                    var elementTop = $(this).offset().top;
+                    var elementBottom = elementTop + $(this).outerHeight();
+                    var viewportTop = $(window).scrollTop();
+                    var viewportBottom = viewportTop + $(window).height();
+                    
+                    if (elementBottom > viewportTop && elementTop < viewportBottom) {
+                        $(this).addClass('active');
+                    }
+                });
+            });
+            
+            // Form submission
+            $('#contactForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                // Ambil data form
+                var nama = $(this).find('input[type="text"]').val();
+                var email = $(this).find('input[type="email"]').val();
+                var telepon = $(this).find('input[type="tel"]').val();
+                var pesan = $(this).find('textarea').val();
+                
+                // Buat mailto link
+                var subject = 'Pesan dari ' + nama + ' - Jelajah Madura';
+                var body = 'Nama: ' + nama + '%0D%0A' +
+                          'Email: ' + email + '%0D%0A' +
+                          'Telepon: ' + telepon + '%0D%0A%0D%0A' +
+                          'Pesan:%0D%0A' + pesan;
+                
+                var mailtoLink = 'mailto:reinhartrobert23@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + body;
+                
+                // Buka email client
+                window.location.href = mailtoLink;
+                
+                // Tampilkan pesan sukses
+                alert('Terima kasih! Email client Anda akan terbuka untuk mengirim pesan.');
+                
+                // Reset form
+                this.reset();
+            });
+            
+            // Hover effect untuk destination cards
+            $('.destination-card').hover(
+                function() {
+                    $(this).find('img, div[style*="height: 250px"]').css('transform', 'scale(1.1)');
+                },
+                function() {
+                    $(this).find('img, div[style*="height: 250px"]').css('transform', 'scale(1)');
+                }
+            );
+            
+            // Active class untuk navbar
+            $(window).scroll(function() {
+                var scrollPos = $(document).scrollTop() + 100;
+                $('.nav-link').each(function() {
+                    var currLink = $(this);
+                    var refElement = $(currLink.attr('href'));
+                    if (refElement.length && refElement.position().top <= scrollPos && refElement.position().top + refElement.height() > scrollPos) {
+                        $('.nav-link').removeClass('active');
+                        currLink.addClass('active');
+                    } else {
+                        currLink.removeClass('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
